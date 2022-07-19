@@ -1,0 +1,21 @@
+services:
+  nginx:
+    container_name: nginx
+    image: nginx:1.23-alpine
+    depends_on:
+      - worker
+    ports:
+      - 80:80
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./web:/home/app/web
+      - data:/home/app/web/data
+
+  worker:
+    container_name: worker
+    build: worker/
+    volumes:
+      - data:/home/app/worker/data
+
+volumes:
+  data:
